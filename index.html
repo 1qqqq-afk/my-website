@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间展示</title>
+    <style>
+        /* 全局设置，确保页面充满屏幕并居中显示 */
+        body, html {
+            margin: 0;                  /* 去除默认的页面外边距 */
+            padding: 0;                 /* 去除默认的页面内边距 */
+            height: 100%;               /* 设置页面高度为100% */
+            display: flex;              /* 使用Flexbox布局 */
+            justify-content: center;    /* 水平居中 */
+            align-items: center;        /* 垂直居中 */
+            background-color: #f0f0f0;  /* 设置背景颜色为浅灰色 */
+            font-family: "黑体", "SimHei", sans-serif; /* 设置全局字体为黑体 */
+        }
+
+        /* 容器样式，包含图片和时间文字 */
+        .container {
+            position: relative;         /* 设置为相对定位，时间文字可以基于此定位 */
+            text-align: center;          /* 水平居中 */
+        }
+
+        /* 图片样式 */
+        .image {
+            width: 100%;                 /* 图片宽度为容器的100% */
+            max-width: 500px;            /* 图片最大宽度为500px */
+            height: auto;                /* 高度自动，保持图片比例 */
+        }
+
+        /* 时间文字容器的样式 */
+        .time {
+            position: absolute;          /* 绝对定位，确保文字可以自由定位 */
+            top: 44%;                     /* 垂直居中 */
+            left: 50%;                    /* 水平居中 */
+            transform: translate(-50%, -50%); /* 用translate将文字精确地移动到容器中心 */
+            padding: 10px 40px;           /* 增加内边距，给底色框增加空间 */
+            background-color: #E0F0FD;    /* 设置背景颜色为#E0F0FD */
+            border-radius: 1px;           /* 圆角效果 */
+            display: inline-flex;         /* 使用flexbox让日期和时间保持在同一行 */
+            justify-content: center;      /* 水平居中 */
+            align-items: center;          /* 垂直居中 */
+            width: auto;                  /* 让宽度自适应内容 */
+            white-space: nowrap;          /* 防止日期和时间换行 */
+        }
+
+        .date-time {
+            font-size: 24px;              /* 日期和时间的字体大小 */
+            font-weight: bold;            /* 加粗文字 */
+            color: black;                 /* 文字颜色为黑色 */
+            text-align: center;           /* 文本居中 */
+        }
+
+        .date-time span {
+            display: inline-block;        /* 使日期和时间都保持在同一排 */
+            margin-right: 5px;           /* 增加日期和时间之间的间隙 */
+        }
+         /* 新增的日期显示 */
+         .bottom-date {
+            position: absolute;           /* 绝对定位 */
+            left: 29.5%;                   /* 位于左侧 */
+            bottom: 11.8%;                 /* 位于底部 */
+            font-size: 24px;               /* 字体大小 */
+            color: white;                 /* 字体颜色为白色 */
+            background-color: #0B5AA7;    /* 底色为#0B5AA7 */
+            padding: 5px 15px;             /* 内边距 */
+            border-radius: 5px;           /* 圆角效果 */
+            white-space: nowrap;          /* 防止换行 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="image.jpg" alt="背景图片" class="image">
+        <div class="time" id="time-display">
+            <div class="date-time" id="date-time-display">
+                <span id="date-display">正在加载日期...</span>
+                <span id="time-text">正在加载时间...</span>
+            </div>
+        </div>
+         <!-- 新增的日期显示 -->
+         <div class="bottom-date" id="bottom-date"></div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;  // 月份从0开始，所以加1
+            const day = now.getDate();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const date = `${year}年${month}月${day}日`;
+            const time = `${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('date-display').textContent = date;
+            document.getElementById('time-text').textContent = time;
+            
+             // 设置底部日期显示为格式 01-07
+            const formattedDate = `${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            document.getElementById('bottom-date').textContent = formattedDate;
+        }
+
+        setInterval(updateTime, 1000);  // 每秒更新一次时间
+        updateTime();  // 页面加载时立即调用一次
+    </script>
+</body>
+</html>
